@@ -1,2 +1,2 @@
 # DataStructure
-Python commonly used data structure
+Python commonly used Data Structure
