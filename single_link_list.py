@@ -1,3 +1,6 @@
+import random
+
+
 class LinkedListUnderflow(ValueError):
     """
     手动定义一个异常类，在无结点操作时用于引发
@@ -23,28 +26,23 @@ class LinkedList:
     def __init__(self):
         self._head = None
 
-    # 判断链表是否为空，如果头结点为None的话，说明链表为空
-    def is_empty(self):
+    def is_empty(self):   # 判断链表是否为空
         return self._head is None
 
-    # 在表头插入数据
-    def append_head(self, elem):
+    def append_head(self, elem):  # 在表头插入数据
         # node = LNode(elem)
         # node.next = self._head
         # self._head = node
         self._head = LNode(elem, self._head)
 
-    # 删除表头
-    def pop_head(self):
+    def pop_head(self):  # 删除表头
         if self._head is None:
             raise LinkedListUnderflow('in pop')
         e = self._head.elem
         self._head = self._head.next
         return e
 
-    # 在链表的最后插入元素
-    # 必须要先通过一个扫描循环找到最后一个结点后把包含新元素的结点插入在其后
-    def append_end(self, elem):
+    def append(self, elem):  # 在链表的最后插入元素
         # 判断链表是否为空，如果链表为空，则直接将元素赋值给表头
         if self._head is None:
             self._head = LNode(elem)
@@ -59,8 +57,7 @@ class LinkedList:
         p.next = LNode(elem)
         # print(p.next.elem)
 
-    # 删除表中最后元素操作
-    def pop_last(self):
+    def pop(self):  # 删除表中最后元素操作
         # 先判断链表是否为空，如果为空的话引发异常
         if self._head is None:
             raise LinkedListUnderflow('in pop last')
@@ -77,27 +74,91 @@ class LinkedList:
         p.next = None
         return e
 
-    def print_all(self):
-        if self._head is None:
-            raise LinkedListUnderflow('empty')
+    def print_all(self):  # 依次遍历打印所有元素
         p = self._head
         while p is not None:
             print('%s ->' % p.elem, end=' ')
             p = p.next
         print(None)
 
+    def filter(self, pre):   # 为链表定义过滤器
+        p = self._head
+        while p is not None:
+            if pre(p.elem):
+                yield p.elem
+            p = p.next
+
+    def elements(self):  # 定义链表的生成器函数
+        p = self._head
+        while p is not None:
+            yield p.elem
+            p = p.next
+
+
+class LList1(LinkedList):
+    """
+    原链表如果在尾部添加元素的话需要重新遍历整个链表，影响效率
+    通过继承和扩充重新定义链表类，使其加入尾部作用域，方便尾部添加元素
+    添加尾部作用域后，凡是涉及到尾部作用域的方法都需要重写
+    """
+    def __init__(self):
+        LinkedList.__init__(self)
+        self._rear = None
+
+    def append_head(self, elem):  # 添加头结点
+        if self._head is None:  # 链表为空
+            self._head = LNode(elem, self._head)
+            self._rear = self._head
+        else:
+            self._head = LNode(elem, self._head)
+
+    def append(self, elem):  # 末尾添加结点
+        if self._head is None:
+            self._head = LNode(elem, self._head)
+            self._rear = self._head
+        else:
+            self._rear.next = LNode(elem)
+            self._rear = self._rear.next
+
+    def pop(self):
+        if self._head is None:
+            raise UnboundLocalError('empty')
+        p = self._head.next
+        if p.next is None:
+            e = p.elem
+            self._head = None
+            return e
+        while p.next.next is not None:
+            p = p.next
+        e = p.next.elem
+        p.next = None
+        self._rear = p
+        return e
+
+
+def predicate(n):   # 定义功能型函数,过滤小于5的元素
+    if n < 5:
+        return True
+    return False
+
 if __name__ == '__main__':
-    a = LinkedList()
-    # a.pop_head()
+    # a = LinkedList()
     # print(a.is_empty())
-    # a.append_head(1)
-    # print(a.is_empty())
+    # a.print_all()
+    # for i in range(11):
+    #     a.append_head(i)
+    # for j in range(11, 20):
+    #     a.append_end(j)
+    # a.print_all()
     # print(a.pop_head())
-    a.append_end(1)
-    a.append_end(2)
-    # a.append_end(3)
-    # a.append_end(4)
-    a.print_all()
-    print(a.pop_last())
-    print(a.pop_last())
     # print(a.pop_last())
+    # a.print_all()
+    # for i in a.filter(predicate):
+    #     print(i)
+    b = LList1()
+    b.append_head(99)
+    for i in range(11, 20):
+        b.append(random.randint(1, 20))
+    b.print_all()
+    for x in b.filter(lambda y: y % 2 == 0):
+        print(x)
