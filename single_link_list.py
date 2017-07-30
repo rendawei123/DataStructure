@@ -94,6 +94,15 @@ class LinkedList:
             yield p.elem
             p = p.next
 
+    def rev(self):  # 定义链表反转
+        p = None
+        while self._head is not None:
+            q = self._head
+            self._head = q.next  # 摘下原来的首结点
+            q.next = p  # 将摘下来的结点加入到新链表的开头
+            p = q  # 更新新链表为p
+        self._head = p  # 反转工作做好后重置链表头
+
 
 class LList1(LinkedList):
     """
@@ -155,10 +164,16 @@ if __name__ == '__main__':
     # a.print_all()
     # for i in a.filter(predicate):
     #     print(i)
-    b = LList1()
-    b.append_head(99)
-    for i in range(11, 20):
-        b.append(random.randint(1, 20))
-    b.print_all()
-    for x in b.filter(lambda y: y % 2 == 0):
-        print(x)
+    # b = LList1()
+    # b.append_head(99)
+    # for i in range(11, 20):
+    #     b.append(random.randint(1, 20))
+    # b.print_all()
+    # for x in b.filter(lambda y: y % 2 == 0):
+    #     print(x)
+    a = LinkedList()
+    for i in range(10):
+        a.append(random.randint(1, 20))
+    a.print_all()
+    a.rev()
+    a.print_all()
