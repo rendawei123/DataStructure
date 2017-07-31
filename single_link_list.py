@@ -94,7 +94,7 @@ class LinkedList:
             yield p.elem
             p = p.next
 
-    def rev(self):  # 定义链表反转
+    def rev(self):  # 定义链表反转,创建新链表，将旧链表头取下，添加到新链表头
         p = None
         while self._head is not None:
             q = self._head
@@ -102,6 +102,26 @@ class LinkedList:
             q.next = p  # 将摘下来的结点加入到新链表的开头
             p = q  # 更新新链表为p
         self._head = p  # 反转工作做好后重置链表头
+
+    # 定义链表排序方法，插入法
+    # 第一步：从头开始扫描过小于或等于x的元素
+    # 第二步：做一系列倒换，把x放入正确位置，并将其他元素后移
+    def sort1(self):
+        if self._head is None:  # 如果就一个结点，就不用排序
+            return
+        crt = self._head.next   # 从首结点之后开始处理
+        while crt is not None:  # crt每次把值插入完结之后，都后移一位
+            x = crt.elem
+            p = self._head
+            while p is not crt and p.elem < x:  # 从头开始扫描小于x的结点
+                p = p.next
+            while p is not crt:  # 找到位置后插入，并一次移动其他元素
+                y = p.elem    # 交换x、y的值
+                p.elem = x
+                x = y
+                p = p.next  # 依次后移
+            crt.elem = x
+            crt = crt.next  # 让crt指向下一个元素
 
 
 class LList1(LinkedList):
@@ -175,5 +195,7 @@ if __name__ == '__main__':
     for i in range(10):
         a.append(random.randint(1, 20))
     a.print_all()
-    a.rev()
+    # a.rev()
+    # a.print_all()
+    a.sort1()
     a.print_all()
