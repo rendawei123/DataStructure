@@ -123,6 +123,27 @@ class LinkedList:
             crt.elem = x
             crt = crt.next  # 让crt指向下一个元素
 
+    # 通过修改指针的方式来排序，取下链表的结点，
+    # 将其插入一段元素递增的结点链中的正确位置
+    def sort(self):
+        p = self._head
+        rem = p.next
+        p.next = None
+
+        while rem is not None:
+            p = self._head
+            q = None
+            while p is not None and p.elem <= rem.elem:
+                q = p
+                p = p.next
+            if q is None:
+                self._head = rem
+            else:
+                q.next = rem
+            q = rem
+            rem = rem.next
+            q.next = p
+
 
 class LList1(LinkedList):
     """
@@ -197,5 +218,6 @@ if __name__ == '__main__':
     a.print_all()
     # a.rev()
     # a.print_all()
-    a.sort1()
+    # a.sort1()
+    a.sort()
     a.print_all()
