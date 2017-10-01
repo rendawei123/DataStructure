@@ -20,7 +20,7 @@ class StackUnderflow(ValueError):
 class ListStack(object):
     """使用顺序表实现栈"""
     def __init__(self):
-        self._elems == []
+        self._elems = []
 
     def is_empty(self):
         return self._elems == []
@@ -37,3 +37,10 @@ class ListStack(object):
         if self._elems == []:
             raise StackUnderflow('empty')
         return self._elems.pop()
+
+
+
+if __name__ == '__main__':
+    a = ListStack()
+    a.push(1)
+    print(a.pop())
