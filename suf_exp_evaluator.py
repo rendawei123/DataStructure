@@ -14,6 +14,7 @@
 """
 
 from list_stack import ListStack
+from trans_infix_fuffix import trans_infix_suffix
 
 
 # 定义一个函数，把表达式的字符串转化为项的表
@@ -27,9 +28,9 @@ class EListStack(ListStack):
         return len(self._elems)
 
 
-def suf_exp_evaluator(exp):
+def suf_exp_evaluator(exp_list):
 
-    exp_list = split_exp(exp)
+    # exp_list = split_exp(exp)
     operators = '+-*/'
     st = EListStack()
 
@@ -67,10 +68,10 @@ def suf_exp_evaluator(exp):
 def suffix_exp_calculator():
     while True:
         try:
-            line = input('请输入后缀表达式（输入end退出）：').strip()
+            line = input('请输入中缀表达式（输入end退出）：').strip()
             if line == 'end':
                 return
-            res = suf_exp_evaluator(line)
+            res = suf_exp_evaluator(trans_infix_suffix(line))
             print(res)
         except Exception as ex:
             print('errot:', type(ex), ex.args)
