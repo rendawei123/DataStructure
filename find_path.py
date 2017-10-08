@@ -33,3 +33,7 @@ dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # 给迷宫maze的位置pos标2表示到过了，其中参数pos为二元序对，形式为（i，j）,maze表示迷宫
 def mark(maze, pos):
     maze[pos[0]][pos[1]] = 2
+
+# 检查迷宫maze的位置pos是否可行
+def possible(maze, pos):
+    return maze[pos[0]][pos[1]] == 0
