@@ -76,3 +76,13 @@ class SQueue():
         for i in range(old_len):
             new_elems[i] = self._elems[(self._head + i) % self._len]
         self._elems, self._head = new_elems, 0
+
+
+if __name__ == '__main__':
+    q = SQueue()
+    for i in range(100):
+        q.enqueue(i)
+
+
+    for i in range(101):
+        print(q.dequeue())
