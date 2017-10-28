@@ -67,11 +67,47 @@ def preorder_non_recursion(t, proc):
         t = s.pop()
 
 """
+通过生成器函数遍历
+"""
+
+def preorder_non_recursion_elements(t):
+    s = ListStack()
+    while t is not None or not s.is_empty():
+        while t is not None:
+            s.push(t.right)
+            yield t.data
+            t = t.left
+        t = s.pop()
+
+"""
 非递归的中根序遍历
 """
 
 def midorder_non_recursion(t, proc):
     pass
+
+
+"""
+非递归的后根序遍历
+
+栈中结点序列的左边是二叉树已经遍历的部分，右边是尚未遍历的部分
+如果不为空，其父节点就是栈顶结点
+t空时栈顶就是应访问的结点
+"""
+
+def postorder_non_recursion(t, proc):
+    s = ListStack()
+    while t is not None or not s.is_empty():
+        while t is not None:
+            s.push(t)
+            t = t.left if t.left is not None else t.right
+        t = s.pop()
+        proc(t.data)
+        if not s.is_empty() and s.top().left == t:
+            t = s.top().right
+        else:
+            t = None
+
 
 
 if __name__ == '__main__':
@@ -80,3 +116,4 @@ if __name__ == '__main__':
     # levelorder(t, print_data)
     # preorder_non_recursion(t, print_data)
     midorder_non_recursion(t, print_data)
+    # postorder_non_recursion(t, print_data)
