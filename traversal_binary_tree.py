@@ -84,7 +84,15 @@ def preorder_non_recursion_elements(t):
 """
 
 def midorder_non_recursion(t, proc):
-    pass
+    s = ListStack()
+    while t is not None or not s.is_empty():
+        while t is not None:
+            s.push(t)
+            t = t.left
+        t = s.pop()
+        proc(t.data)
+        t = t.right
+
 
 
 """
