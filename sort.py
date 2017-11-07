@@ -3,6 +3,12 @@
 """
 import random
 
+"""
+二分检索
+二分检索只对已经排好序的序列有用
+每次找中点然后，判断目标值在中点前面还是终点后面，然后根据范围取值,下一次继续缩小范围
+"""
+
 # 二分检索
 def bisection_search(l, val):
     left = 0
@@ -64,15 +70,6 @@ def insert_sort(l):
     return l
 
 """
-检索
-
-- 二分查找
-
-排序
-
-- 冒泡排序
-- 选择排序
-- 插入排序
 - 递归快拍
 - 堆排序
 - 归并排序
@@ -80,6 +77,43 @@ def insert_sort(l):
 - 计数排序
 
 """
+
+"""
+堆排序
+"""
+# 定义向下筛选
+def sift_down(elems, e, begin, end):
+    i, j = begin, begin*2+1
+
+    while j < end:
+        if j + 1 < end and elems[j] > elems[j+1]:
+            j += 1
+        if e < elems[j]:
+            break
+        elems[i] = elems[j]
+        i, j = j, j*2+1
+    elems[i] = e
+
+# 堆排序
+def heap_sort(elems):
+    end = len(elems)
+
+    # 循环建堆
+    for i in range(end//2, -1, -1):
+        sift_down(elems, elems[i], i, end)
+
+    # 循环将第一个元素取出，添加到末尾
+    for i in range(end-1, 0, -1):
+        e = elems[i]
+        elems[i] = elems[0]
+        sift_down(elems, e, 0, i)
+
+
+
+
+
+def sort_heap(l):
+    pass
 
 
 if __name__ == '__main__':
@@ -91,5 +125,6 @@ if __name__ == '__main__':
     print(l)
     # bubble_sort(l)
     # choose_sort(l)
-    insert_sort(l)
+    # insert_sort(l)
+    heap_sort(l)
     print(l)
