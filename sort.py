@@ -70,13 +70,40 @@ def insert_sort(l):
     return l
 
 """
-- 递归快拍
-- 堆排序
 - 归并排序
 - 希尔排序
 - 计数排序
 
 """
+
+"""
+递归快排
+递归快排就是首先取一个元素，通过循环找到他的准确位置，然后这个位置不变，并且这个数将列表分为两部分，这两部分通过递归的方式执行上一步操作，直到全部排完序
+
+快速排序是一道典型的运用分治思想的题目
+"""
+def get_middle(elems, left, right):
+    tmp = elems[left]
+
+    while left < right:
+
+        while left < right and elems[right] >= tmp:
+            right -= 1
+        elems[left] = elems[right]
+
+        while left < right and elems[left] <= tmp:
+            left += 1
+        elems[right] = elems[left]
+
+    elems[left] = tmp
+
+    return left
+
+def quick_sort(elems, left, right):
+    if left < right:
+        mid = get_middle(elems, left, right)
+        quick_sort(elems, left, mid-1)
+        quick_sort(elems, mid+1, right)
 
 """
 堆排序
@@ -110,12 +137,6 @@ def heap_sort(elems):
 
 
 
-
-
-def sort_heap(l):
-    pass
-
-
 if __name__ == '__main__':
     l = list(range(10))
     # print(l)
@@ -126,5 +147,6 @@ if __name__ == '__main__':
     # bubble_sort(l)
     # choose_sort(l)
     # insert_sort(l)
-    heap_sort(l)
+    # heap_sort(l)
+    quick_sort(l, 0, len(l)-1)
     print(l)
