@@ -70,10 +70,8 @@ def insert_sort(l):
     return l
 
 """
-- 归并排序
 - 希尔排序
 - 计数排序
-
 """
 
 """
@@ -136,6 +134,46 @@ def heap_sort(elems):
         sift_down(elems, e, 0, i)
 
 
+"""
+归并排序
+
+归并排序采用分组处理，也是二分法的思想。将一组数据拆成两组，再将小组继续拆分为两个直到每个小组剩下1或0个元素。这时才开始对小组中的元素排序，排序完成之后再合并为新的小组。一直往上排序和合并直到排序完成。
+"""
+# 首先定义将两个列表进行合并和排序
+def merge(left, right):
+    i = 0  # 定义left的第一个索引
+    j = 0  # 定义right的第一个索引
+    result = []
+
+    while i < len(left) and j < len(right):
+        # 逐个比较两个列表的元素，小的添加进列表，大的留在后面继续比较
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    # 最后加上末尾的元素
+    result.extend(left[i:])
+    result.extend(right[j:])
+
+    return result
+
+def merge_sort(elems):
+    length = len(elems)
+
+    # 递归退出条件判断
+    if length <= 1:
+        return elems
+
+    mid = length // 2
+    left = merge_sort(elems[:mid])
+    right = merge_sort(elems[mid:])
+
+    # 合并排序
+    return merge(left, right)
+
 
 if __name__ == '__main__':
     l = list(range(10))
@@ -148,5 +186,6 @@ if __name__ == '__main__':
     # choose_sort(l)
     # insert_sort(l)
     # heap_sort(l)
-    quick_sort(l, 0, len(l)-1)
+    # quick_sort(l, 0, len(l)-1)
+    print(merge_sort(l))
     print(l)
